@@ -87,6 +87,28 @@ class StudentController {
       next(error);
     }
   };
+
+  static listStudentsByFilter = async (req, res, next) => {
+    try {
+      const busca = await filterProcess(req.query);
+      console.log(busca);
+      const foundStudent = await student.find(busca);
+
+      res.status(200).json(foundStudent);
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+async function filterProcess(params) {
+  const { name } = params;
+
+  let filter = {};
+
+  if(name) filter.name = { $regex: name, $options: "i" };
+
+  return filter;
 }
 
 export default StudentController;
