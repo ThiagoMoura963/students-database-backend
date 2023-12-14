@@ -1,13 +1,15 @@
 import express from "express";
 import StudentController from "../controllers/studentController.js";
+import pagination from "../middleware/pagination.js";
 
-const routes = express.Router();
+const router = express.Router();
 
-routes.get("/students", StudentController.listStudents);
-routes.get("/students/busca", StudentController.listStudentsByFilter);
-routes.get("/students/:id", StudentController.listStudentById);
-routes.post("/students", StudentController.addStudent);
-routes.put("/students/:id", StudentController.updateStudent);
-routes.delete("/students/:id", StudentController.removeStudent);
+router
+  .get("/students", StudentController.listStudents, pagination)
+  .get("/students/busca", StudentController.listStudentsByFilter, pagination)
+  .get("/students/:id", StudentController.listStudentById)
+  .post("/students", StudentController.addStudent)
+  .put("/students/:id", StudentController.updateStudent)
+  .delete("/students/:id", StudentController.removeStudent);
 
-export default routes;
+export default router;

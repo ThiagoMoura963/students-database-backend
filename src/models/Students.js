@@ -3,10 +3,7 @@ import autopopulate from "mongoose-autopopulate";
 
 const studentsSchema = new mongoose.Schema({
   id: { type: mongoose.Schema.Types.ObjectId },
-  name: {
-    type: String,
-    required: [true, "O nome do aluno(a) é obrigatório"]
-  },
+  name: { type: String },
   age: {
     type: Number,
     required: [true, "A idade do aluno(a) é obrigatório(a)"]
@@ -15,10 +12,7 @@ const studentsSchema = new mongoose.Schema({
     type: Date,
     required: [true, "A data de nascimento do aluno(a) é obrigatório(a)"]
   },
-  cpf: {
-    type: String,
-    required: [true, "O CPF de nascimento do aluno(a) é obrigatório(a)"]
-  },
+  cpf: { type: String },
   course: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "courses",

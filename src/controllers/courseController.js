@@ -1,12 +1,14 @@
-import course from "../models/Course.js";
-import NotFound from "../error/NotFound.js";
+import { course } from "../models/index.js";
+import NotFound from "../errors/NotFound.js";
 
 class CourseController {
-  static listCourse = async (_, res, next) => {
+  static listCourse = async (req, res, next) => {
     try {
-      const foundCourse = await course.find();
+      const foundCourse = course.find();
 
-      res.status(200).json(foundCourse);
+      req.results = foundCourse;
+
+      next();
     } catch (error) {
       next(error);
     }

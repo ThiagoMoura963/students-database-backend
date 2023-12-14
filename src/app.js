@@ -19,5 +19,4 @@ routes(app);
 app.use(handle404);
 
 app.use(handleError);
-
 export default app;

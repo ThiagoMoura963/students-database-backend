@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import BaseError from "../error/BaseError.js";
-import BadRequest from "../error/BadRequest.js";
-import ValidationError from "../error/ValidationError.js";
-import NotFound from "../error/NotFound.js";
+import BaseError from "../errors/BaseError.js";
+import BadRequest from "../errors/BadRequest.js";
+import ValidationError from "../errors/ValidationError.js";
+import NotFound from "../errors/NotFound.js";
 
 /* eslint-disable no-unused-vars */
 function handleError(error, req, res, next) {

@@ -1,12 +1,14 @@
 import express from "express";
 import CourseController from "../controllers/courseController.js";
+import pagination from "../middleware/pagination.js";
 
-const routes = express.Router();
+const router = express.Router();
 
-routes.get("/course", CourseController.listCourse);
-routes.get("/course/:id", CourseController.listCourseById);
-routes.post("/course", CourseController.addCourse);
-routes.put("/course/:id", CourseController.updateCourse);
-routes.delete("/course/:id", CourseController.removeCourse);
+router
+  .get("/courses", CourseController.listCourse, pagination)
+  .get("/courses/:id", CourseController.listCourseById)
+  .post("/courses", CourseController.addCourse)
+  .put("/courses/:id", CourseController.updateCourse)
+  .delete("/courses/:id", CourseController.removeCourse);
 
-export default routes;
+export default router;

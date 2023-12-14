@@ -1,15 +1,17 @@
-import student from "../models/Students.js";
-import course from "../models/Course.js";
-import NotFound from "../error/NotFound.js";
+import { student, course } from "../models/index.js";
+import NotFound from "../errors/NotFound.js";
 
 class StudentController {
-  static listStudents = async (req, res, next) => {
+  static listStudents = async(req, res, next) => {
     try {
-      const students = await student.find();
+      const students = student.find();
 
-      res.status(200).json(students);
+      req.results = students;
+      
+      next();
     } catch (error) {
       next(error);
+      console.log(error);
     }
   };
 
@@ -90,11 +92,17 @@ class StudentController {
 
   static listStudentsByFilter = async (req, res, next) => {
     try {
-      const busca = await filterProcess(req.query);
-      console.log(busca);
-      const foundStudent = await student.find(busca);
-
-      res.status(200).json(foundStudent);
+      const filter = await filterProcess(req.query);
+      
+      if(filter !== null) {
+        const foundStudent = student.find(filter);
+  
+        req.results = foundStudent;
+  
+        next();
+      } else {
+        res.status(200).json([]);
+      }
     } catch (error) {
       next(error);
     }
@@ -102,11 +110,21 @@ class StudentController {
 }
 
 async function filterProcess(params) {
-  const { name } = params;
+  const { name, courseName } = params;
 
   let filter = {};
 
   if(name) filter.name = { $regex: name, $options: "i" };
+
+  if(courseName) {
+    const foundCourse = await course.findOne({ courseName: courseName });
+
+    if(foundCourse !== null) {
+      filter["course._id"] = foundCourse._id;
+    } else {
+      filter = null;
+    }
+  }
 
   return filter;
 }
